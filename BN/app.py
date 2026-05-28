@@ -16,7 +16,11 @@ SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 if SUPABASE_URL and SUPABASE_KEY:
-    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    try:
+        supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+    except Exception as e:
+        print(f"Warning: Failed to connect to Supabase: {e}. Using in-memory data.")
+        supabase = None
 else:
     supabase = None
     print("Warning: Supabase credentials not found. Using in-memory data.")
@@ -293,4 +297,5 @@ def health_check():
     return jsonify({"status": "ok", "supabase_connected": supabase is not None})
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, host="0.0.0.0", port=port)

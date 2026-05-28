@@ -1,4 +1,4 @@
--- Run this SQL in your Supabase SQL Editor to set up the database schema
+connect-- Run this SQL in your Supabase SQL Editor to set up the database schema
 
 -- Movies table
 CREATE TABLE IF NOT EXISTS movies (
